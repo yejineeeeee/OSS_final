@@ -20,3 +20,8 @@ image_path = os.path.join(current_path, "images") # images 폴더 위치 반환
 
 # 배경
 background = pygame.image.load(os.path.join(image_path, "background.png"))
+
+#stage
+stage = pygame.image.load(os.path.join(image_path, "stage.png"))
+stage_size = stage.get_rect().size
+stage_height = stage_size[1]
