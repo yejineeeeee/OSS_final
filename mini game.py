@@ -4,7 +4,7 @@ import pygame
 pygame.init()
 
 screen_width = 640 
-screen_height = 480 # 세로 크기
+screen_height = 405 # 세로 크기
 screen = pygame.display.set_mode((screen_width, screen_height))
 
 # 화면 타이틀
