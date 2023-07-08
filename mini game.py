@@ -49,6 +49,11 @@ weapons = []
 
 weapon_speed = 10
 
+#Font
+game_font = pygame.font.Font(None, 40)
+total_time = 100
+start_ticks = pygame.time.get_ticks() #시작 시간 정의
+
 running = True
 while running:
     dt = clock.tick(30)
