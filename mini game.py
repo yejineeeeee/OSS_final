@@ -126,6 +126,16 @@ while running:
             if weapon_rect.colliderect(ball_rect):
                 weapon_to_remove = weapon_idx 
                 ball_to_remove = ball_idx 
+                break
+
+    # 충돌된 공 or 무기 없애기
+    if ball_to_remove > -1:
+        del balls[ball_to_remove]
+        ball_to_remove = -1
+
+    if weapon_to_remove > -1:
+        del weapons[weapon_to_remove]
+        weapon_to_remove = -1
 
     # 5. 화면에 그리기
     screen.blit(background, (0, 0))
