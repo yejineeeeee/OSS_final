@@ -81,7 +81,7 @@ while running:
             running = False 
 
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_LEFT:
+            if event.key == pygame.K_LEFT: 
                 character_to_x -= character_speed
             elif event.key == pygame.K_RIGHT:
                 character_to_x += character_speed
