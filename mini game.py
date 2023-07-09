@@ -108,6 +108,18 @@ while running:
     # 천장에 닿은 무기 없애기
     weapons = [ [w[0], w[1]] for w in weapons if w[1] > 0]
     
+
+  # 공 위치 정의
+    for ball_idx, ball_val in enumerate(balls):
+        ball_pos_x = ball_val["pos_x"]
+        ball_pos_y = ball_val["pos_y"]
+        ball_img_idx = ball_val["img_idx"]
+
+        ball_size = ball_images[ball_img_idx].get_rect().size
+        ball_width = ball_size[0]
+        ball_height = ball_size[1]
+
+
     # 4. 충돌 처리
 
     # 5. 화면에 그리기
