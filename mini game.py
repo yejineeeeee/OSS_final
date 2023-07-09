@@ -49,11 +49,6 @@ weapons = []
 
 weapon_speed = 10
 
-#Font
-game_font = pygame.font.Font(None, 40)
-total_time = 100
-start_ticks = pygame.time.get_ticks() #시작 시간 정의
-
 running = True
 while running:
     dt = clock.tick(30)
@@ -64,7 +59,7 @@ while running:
             running = False 
 
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_LEFT:
+            if event.key == pygame.K_LEFT: 
                 character_to_x -= character_speed
             elif event.key == pygame.K_RIGHT:
                 character_to_x += character_speed
