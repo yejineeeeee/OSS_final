@@ -49,6 +49,11 @@ weapons = []
 
 weapon_speed = 10
 
+
+# 사라질 무기, 공 정보 저장 변수
+weapon_to_remove = -1
+ball_to_remove = -1
+
 # 공 만들기
 ball_images = [
     pygame.image.load(os.path.join(image_path, "balloon1.png")),
@@ -70,6 +75,7 @@ balls.append({
     "to_x": 3, 
     "to_y": -6, 
     "init_spd_y": ball_speed_y[0]})
+
 
 running = True
 while running:
