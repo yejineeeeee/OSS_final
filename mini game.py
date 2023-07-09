@@ -49,6 +49,28 @@ weapons = []
 
 weapon_speed = 10
 
+# 공 만들기
+ball_images = [
+    pygame.image.load(os.path.join(image_path, "balloon1.png")),
+    pygame.image.load(os.path.join(image_path, "balloon2.png")),
+    pygame.image.load(os.path.join(image_path, "balloon3.png")),
+    pygame.image.load(os.path.join(image_path, "balloon4.png"))]
+
+# 공 크기에 따른 최초 스피드
+ball_speed_y = [-18, -15, -12, -9] 
+
+# 공들
+balls = []
+
+# 최초 발생하는 큰 공 추가
+balls.append({
+    "pos_x" : 50, 
+    "pos_y" : 50, 
+    "img_idx" : 0, 
+    "to_x": 3, 
+    "to_y": -6, 
+    "init_spd_y": ball_speed_y[0]})
+
 running = True
 while running:
     dt = clock.tick(30)
