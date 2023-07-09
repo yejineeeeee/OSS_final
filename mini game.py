@@ -49,10 +49,9 @@ weapons = []
 
 weapon_speed = 10
 
-#Font
-game_font = pygame.font.Font(None, 40)
-total_time = 100
-start_ticks = pygame.time.get_ticks() #시작 시간 정의
+# 사라질 무기, 공 정보 저장 변수
+weapon_to_remove = -1
+ball_to_remove = -1
 
 running = True
 while running:
