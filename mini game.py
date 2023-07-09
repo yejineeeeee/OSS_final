@@ -92,6 +92,41 @@ while running:
     
     # 4. 충돌 처리
 
+    # 캐릭터 rect 정보 업데이트
+    character_rect = character.get_rect()
+    character_rect.left = character_x_pos
+    character_rect.top = character_y_pos
+
+    for ball_idx, ball_val in enumerate(balls):
+        ball_pos_x = ball_val["pos_x"]
+        ball_pos_y = ball_val["pos_y"]
+        ball_img_idx = ball_val["img_idx"]
+
+        # 공 rect 정보 업데이트
+        ball_rect = ball_images[ball_img_idx].get_rect()
+        ball_rect.left = ball_pos_x
+        ball_rect.top = ball_pos_y
+
+        # 공과 캐릭터 충돌 체크
+        if character_rect.colliderect(ball_rect):
+            running = False
+            break
+
+        # 공과 무기들 충돌 처리
+        for weapon_idx, weapon_val in enumerate(weapons):
+            weapon_pos_x = weapon_val[0]
+            weapon_pos_y = weapon_val[1]
+
+            # 무기 rect 정보 업데이트
+            weapon_rect = weapon.get_rect()
+            weapon_rect.left = weapon_pos_x
+            weapon_rect.top = weapon_pos_y
+
+            # 충돌 체크
+            if weapon_rect.colliderect(ball_rect):
+                weapon_to_remove = weapon_idx 
+                ball_to_remove = ball_idx 
+
     # 5. 화면에 그리기
     screen.blit(background, (0, 0))
     
