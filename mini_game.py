@@ -4,6 +4,7 @@ import pygame
 pygame.init()
 
 score = 0
+lives = 2
 
 screen_width = 640 
 screen_height = 360 
@@ -192,7 +193,24 @@ while running:
 
         # 공과 캐릭터 충돌 체크
         if character_rect.colliderect(ball_rect):
-            running = False
+            lives -= 1  # 목숨 감소
+            if lives <= 0:
+                running = False
+            else:
+                # 게임 재시작 로직
+                character_x_pos = (screen_width / 2) - (character_width / 2)
+                character_y_pos = screen_height - character_height - stage_height
+                character_to_x = 0
+                weapons = []
+                balls = []
+                balls.append({
+                    "pos_x" : 50,
+                    "pos_y" : 50,
+                    "img_idx" : 0,
+                    "to_x": 3,
+                    "to_y": -6,
+                    "init_spd_y": ball_speed_y[0]
+                })
             break
 
         # 공과 무기들 충돌 처리
@@ -285,6 +303,12 @@ while running:
     elapsed_time = (pygame.time.get_ticks() - start_ticks) / 1000
     timer = game_font.render("Time : {}".format(int(total_time - elapsed_time)), True, (255,255,255))
     screen.blit(timer, (10,10))
+
+    # 목숨 표시
+    lives_render = game_font.render("Lives: {}".format(lives), True, (255, 255, 255))
+    screen.blit(lives_render, (10, 50))
+
+    pygame.display.update()
     
     #점수 표시
     score_render = game_font.render("Score: {}".format(score), True, (255, 255, 255))
