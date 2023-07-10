@@ -64,8 +64,6 @@ ball_speed_y = [-18, -15, -12, -9]
 # 공들
 balls = []
 
-# 공들
-balls = []
 
 # 최초 발생하는 큰 공 추가
 balls.append({
