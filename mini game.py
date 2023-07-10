@@ -4,7 +4,7 @@ import pygame
 pygame.init()
 
 screen_width = 640 
-screen_height = 405 # 세로 크기
+screen_height = 360 
 screen = pygame.display.set_mode((screen_width, screen_height))
 
 # 화면 타이틀
@@ -53,6 +53,13 @@ weapon_speed = 10
 # 사라질 무기, 공 정보 저장 변수
 weapon_to_remove = -1
 ball_to_remove = -1
+
+#font
+game_font = pygame.font.Font(None, 40)
+total_time = 100
+start_ticks = pygame.time.get_ticks()
+
+game_result = "Game Over"
 
 # 공 만들기
 ball_images = [
