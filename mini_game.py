@@ -4,6 +4,7 @@ import pygame
 pygame.init()
 
 score = 0
+lives = 2
 
 screen_width = 640 
 screen_height = 360 
@@ -87,6 +88,25 @@ start_ticks = pygame.time.get_ticks()
 score_font = pygame.font.Font(None, 50)
 score_x_pos = screen_width - 10 - score_font.size("Score: 0")[0]
 score_y_pos = 10
+
+#게임 속도에 따른 설정
+def set_level(score, balls):
+    if score < 50:
+        level = 1
+        speed = 5
+    elif score < 100:
+        level = 2
+        speed = 7
+    elif score < 150:
+        level = 3
+        speed = 9
+    else:
+        level = 4
+        speed = 11
+    
+    for ball in balls:
+        ball['to_y'] = speed
+    return level
 
 game_result = "Game Over"
 
@@ -173,7 +193,24 @@ while running:
 
         # 공과 캐릭터 충돌 체크
         if character_rect.colliderect(ball_rect):
-            running = False
+            lives -= 1  # 목숨 감소
+            if lives <= 0:
+                running = False
+            else:
+                # 게임 재시작 로직
+                character_x_pos = (screen_width / 2) - (character_width / 2)
+                character_y_pos = screen_height - character_height - stage_height
+                character_to_x = 0
+                weapons = []
+                balls = []
+                balls.append({
+                    "pos_x" : 50,
+                    "pos_y" : 50,
+                    "img_idx" : 0,
+                    "to_x": 3,
+                    "to_y": -6,
+                    "init_spd_y": ball_speed_y[0]
+                })
             break
 
         # 공과 무기들 충돌 처리
@@ -226,6 +263,13 @@ while running:
             else:
                 continue
             break
+    # 충돌 처리 후 점수에 따라 게임 속도 설정
+    if ball_to_remove > -1:
+        del balls[ball_to_remove]
+        ball_to_remove = -1
+        score += 20
+
+        level = set_level(score, balls)
 
     # 충돌된 공 or 무기 없애기
     if ball_to_remove > -1:
@@ -259,6 +303,12 @@ while running:
     elapsed_time = (pygame.time.get_ticks() - start_ticks) / 1000
     timer = game_font.render("Time : {}".format(int(total_time - elapsed_time)), True, (255,255,255))
     screen.blit(timer, (10,10))
+
+    # 목숨 표시
+    lives_render = game_font.render("Lives: {}".format(lives), True, (255, 255, 255))
+    screen.blit(lives_render, (10, 50))
+
+    pygame.display.update()
     
     #점수 표시
     score_render = game_font.render("Score: {}".format(score), True, (255, 255, 255))
