@@ -92,6 +92,11 @@ while running:
     weapons = [ [w[0], w[1]] for w in weapons if w[1] > 0]
     
     # 4. 충돌 처리
+    
+    #모든 공을 없앤 경우 게임 종료(성공)
+    if len(balls) == 0:
+        game_result = "Mission Complete"
+        running = False
 
     # 5. 화면에 그리기
     screen.blit(background, (0, 0))
