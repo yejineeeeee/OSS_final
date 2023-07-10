@@ -16,7 +16,8 @@ clock = pygame.time.Clock()
 
 #사용자 게임 초기화
 current_path = os.path.dirname(__file__) # 현재 파일의 위치 반환
-image_path = os.path.join(current_path, "images") # images 폴더 위치 반환
+image_path = r= os.path.join(current_path, "images")
+ # images 폴더 위치 반환
 
 # 배경
 background = pygame.image.load(os.path.join(image_path, "background.png"))
