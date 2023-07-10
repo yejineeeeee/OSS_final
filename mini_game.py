@@ -88,6 +88,25 @@ score_font = pygame.font.Font(None, 50)
 score_x_pos = screen_width - 10 - score_font.size("Score: 0")[0]
 score_y_pos = 10
 
+#게임 속도에 따른 설정
+def set_level(score, balls):
+    if score < 50:
+        level = 1
+        speed = 5
+    elif score < 100:
+        level = 2
+        speed = 7
+    elif score < 150:
+        level = 3
+        speed = 9
+    else:
+        level = 4
+        speed = 11
+    
+    for ball in balls:
+        ball['to_y'] = speed
+    return level
+
 game_result = "Game Over"
 
 
@@ -226,6 +245,13 @@ while running:
             else:
                 continue
             break
+    # 충돌 처리 후 점수에 따라 게임 속도 설정
+    if ball_to_remove > -1:
+        del balls[ball_to_remove]
+        ball_to_remove = -1
+        score += 20
+
+        level = set_level(score, balls)
 
     # 충돌된 공 or 무기 없애기
     if ball_to_remove > -1:
