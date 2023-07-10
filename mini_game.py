@@ -170,6 +170,12 @@ while running:
         else: # 그 외의 모든 경우에는 속도를 증가
             ball_val["to_y"] += 0.5
 
+        if ball_img_idx == 3 and ball_pos_y >= screen_height - stage_height - ball_height:
+            ball_val["img_idx"] = 0
+            ball_val["to_x"] = 3
+            ball_val["to_y"] = -6
+            ball_val["init_spd_y"] = ball_speed_y[0]
+
         ball_val["pos_x"] += ball_val["to_x"]
         ball_val["pos_y"] += ball_val["to_y"]
 
