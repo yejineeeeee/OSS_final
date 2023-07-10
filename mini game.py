@@ -37,7 +37,6 @@ character_height = character_size[1]
 character_x_pos = (screen_width / 2) - (character_width / 2)
 character_y_pos = screen_height - character_height - stage_height
 
-running = True
 
 character_to_x = 0
 character_speed = 5
@@ -51,6 +50,30 @@ weapons = []
 
 weapon_speed = 10
 
+# 공 만들기
+ball_images = [
+    pygame.image.load(os.path.join(image_path, "balloon1.png")),
+    pygame.image.load(os.path.join(image_path, "balloon2.png")),
+    pygame.image.load(os.path.join(image_path, "balloon3.png")),
+    pygame.image.load(os.path.join(image_path, "balloon4.png"))]
+
+# 공 크기에 따른 최초 스피드
+ball_speed_y = [-18, -15, -12, -9] 
+
+# 공들
+balls = []
+
+# 공들
+balls = []
+
+# 최초 발생하는 큰 공 추가
+balls.append({
+    "pos_x" : 50, 
+    "pos_y" : 50, 
+    "img_idx" : 0, 
+    "to_x": 3, 
+    "to_y": -6, 
+    "init_spd_y": ball_speed_y[0]})
 
 # 사라질 무기, 공 정보 저장 변수
 weapon_to_remove = -1
@@ -67,28 +90,6 @@ score_x_pos = screen_width - 10 - score_font.size("Score: 0")[0]
 score_y_pos = 10
 
 game_result = "Game Over"
-
-# 공 만들기
-ball_images = [
-    pygame.image.load(os.path.join(image_path, "balloon1.png")),
-    pygame.image.load(os.path.join(image_path, "balloon2.png")),
-    pygame.image.load(os.path.join(image_path, "balloon3.png")),
-    pygame.image.load(os.path.join(image_path, "balloon4.png"))]
-
-# 공 크기에 따른 최초 스피드
-ball_speed_y = [-18, -15, -12, -9] 
-
-# 공들
-balls = []
-
-# 최초 발생하는 큰 공 추가
-balls.append({
-    "pos_x" : 50, 
-    "pos_y" : 50, 
-    "img_idx" : 0, 
-    "to_x": 3, 
-    "to_y": -6, 
-    "init_spd_y": ball_speed_y[0]})
 
 
 running = True
@@ -155,11 +156,6 @@ while running:
 
 
     # 4. 충돌 처리
-    
-    #모든 공을 없앤 경우 게임 종료(성공)
-    if len(balls) == 0:
-        game_result = "Mission Complete"
-        running = False
 
     # 캐릭터 rect 정보 업데이트
     character_rect = character.get_rect()
@@ -226,6 +222,7 @@ while running:
                         "to_y":-6,
                         "init_spd_y": ball_speed_y[ball_img_idx + 1]
                     })
+                score += 20
                 break
             else:
                 continue
@@ -249,9 +246,6 @@ while running:
     
     for weapon_x_pos, weapon_y_pos in weapons:
         screen.blit(weapon, (weapon_x_pos, weapon_y_pos))
-
-    screen.blit(stage, (0, screen_height - stage_height))
-    screen.blit(character, (character_x_pos, character_y_pos))
     
     for idx, val in enumerate(balls):
         ball_pos_x = val["pos_x"]
