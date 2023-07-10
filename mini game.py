@@ -141,6 +141,11 @@ while running:
 
 
     # 4. 충돌 처리
+    
+    #모든 공을 없앤 경우 게임 종료(성공)
+    if len(balls) == 0:
+        game_result = "Mission Complete"
+        running = False
 
     # 캐릭터 rect 정보 업데이트
     character_rect = character.get_rect()
