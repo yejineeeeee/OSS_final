@@ -232,6 +232,16 @@ while running:
     screen.blit(stage, (0, screen_height - stage_height))
     screen.blit(character, (character_x_pos, character_y_pos))
     
+    #경과 시간 계산
+    elapsed_time = (pygame.time.get_ticks() - start_ticks) / 1000
+    timer = game_font.render("Time : {}".format(int(total_time - elapsed_time)), True, (255,255,255))
+    screen.blit(timer, (10,10))
+    
+    #시간 초과
+    if total_time - elapsed_time <= 0:
+        game_result = "Time Over"
+        funning = False
+    
     pygame.display.update()
 
 pygame.quit()
