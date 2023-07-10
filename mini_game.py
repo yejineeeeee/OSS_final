@@ -3,6 +3,8 @@ import pygame
 
 pygame.init()
 
+score = 0
+
 screen_width = 640 
 screen_height = 360 
 screen = pygame.display.set_mode((screen_width, screen_height))
@@ -36,7 +38,6 @@ character_height = character_size[1]
 character_x_pos = (screen_width / 2) - (character_width / 2)
 character_y_pos = screen_height - character_height - stage_height
 
-running = True
 
 character_to_x = 0
 character_speed = 5
@@ -49,18 +50,6 @@ weapon_width = weapon_size[0]
 weapons = []
 
 weapon_speed = 10
-
-
-# 사라질 무기, 공 정보 저장 변수
-weapon_to_remove = -1
-ball_to_remove = -1
-
-#font
-game_font = pygame.font.Font(None, 40)
-total_time = 100
-start_ticks = pygame.time.get_ticks()
-
-game_result = "Game Over"
 
 # 공 만들기
 ball_images = [
@@ -75,6 +64,7 @@ ball_speed_y = [-18, -15, -12, -9]
 # 공들
 balls = []
 
+
 # 최초 발생하는 큰 공 추가
 balls.append({
     "pos_x" : 50, 
@@ -83,6 +73,22 @@ balls.append({
     "to_x": 3, 
     "to_y": -6, 
     "init_spd_y": ball_speed_y[0]})
+
+# 사라질 무기, 공 정보 저장 변수
+weapon_to_remove = -1
+ball_to_remove = -1
+
+#font
+game_font = pygame.font.Font(None, 40)
+total_time = 100
+start_ticks = pygame.time.get_ticks()
+
+#score location
+score_font = pygame.font.Font(None, 50)
+score_x_pos = screen_width - 10 - score_font.size("Score: 0")[0]
+score_y_pos = 10
+
+game_result = "Game Over"
 
 
 running = True
@@ -149,11 +155,6 @@ while running:
 
 
     # 4. 충돌 처리
-    
-    #모든 공을 없앤 경우 게임 종료(성공)
-    if len(balls) == 0:
-        game_result = "Mission Complete"
-        running = False
 
     # 캐릭터 rect 정보 업데이트
     character_rect = character.get_rect()
@@ -220,7 +221,11 @@ while running:
                         "to_y":-6,
                         "init_spd_y": ball_speed_y[ball_img_idx + 1]
                     })
+                score += 20
                 break
+            else:
+                continue
+            break
 
     # 충돌된 공 or 무기 없애기
     if ball_to_remove > -1:
@@ -230,12 +235,22 @@ while running:
     if weapon_to_remove > -1:
         del weapons[weapon_to_remove]
         weapon_to_remove = -1
+    
+    if len(balls) == 0:
+        game_result = "Mission Complete"
+        running = False
 
     # 5. 화면에 그리기
     screen.blit(background, (0, 0))
     
     for weapon_x_pos, weapon_y_pos in weapons:
         screen.blit(weapon, (weapon_x_pos, weapon_y_pos))
+    
+    for idx, val in enumerate(balls):
+        ball_pos_x = val["pos_x"]
+        ball_pos_y = val["pos_y"]
+        ball_img_idx = val["img_idx"]
+        screen.blit(ball_images[ball_img_idx], (ball_pos_x, ball_pos_y))
 
     screen.blit(stage, (0, screen_height - stage_height))
     screen.blit(character, (character_x_pos, character_y_pos))
@@ -245,6 +260,10 @@ while running:
     timer = game_font.render("Time : {}".format(int(total_time - elapsed_time)), True, (255,255,255))
     screen.blit(timer, (10,10))
     
+    #점수 표시
+    score_render = game_font.render("Score: {}".format(score), True, (255, 255, 255))
+    screen.blit(score_render, (score_x_pos, score_y_pos))
+    
     #시간 초과
     if total_time - elapsed_time <= 0:
         game_result = "Time Over"
@@ -253,9 +272,17 @@ while running:
     pygame.display.update()
 
 #게임오버메시지
-msg = game_font.render(game_result, True, (255,255,0))
-msg_rect = msg.get_rect(center = (int(screen_width / 2), int(screen_height / 2)))
-screen.blit(msg, msg_rect)
+if not running:
+    msg = game_font.render(game_result, True, (255,255,0))
+    msg_rect = msg.get_rect(center = (int(screen_width / 2), int(screen_height / 2)))
+    screen.blit(msg, msg_rect)
+    
+    # 점수 표시
+    score_result = game_font.render("Score: {}".format(score), True, (255, 255, 255)) 
+    score_rect = score_result.get_rect(center=(int(screen_width / 2), int(screen_height / 2) + 50))
+    screen.blit(score_result, score_rect)
+    
+    
 pygame.display.update()
 
 pygame.time.delay(2000)
